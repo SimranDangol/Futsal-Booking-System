@@ -10,23 +10,43 @@ const Navbar = () => {
         </Link>
         <div className="space-x-1 md:space-x-2">
           <Button variant="ghost" className="p-1 hover:bg-transparent">
-            <Link to="/" className="text-base font-medium text-white hover:text-red-500">
+            <Link
+              to="/"
+              className="text-base font-medium text-white hover:text-red-500"
+            >
               Home
             </Link>
           </Button>
           <Button variant="ghost" className="p-1 hover:bg-transparent">
-            <Link to="/login" className="text-base font-medium text-white hover:text-red-500">
+            <Link
+              to="/login"
+              className="text-base font-medium text-white hover:text-red-500"
+            >
               Login
             </Link>
           </Button>
           <Button variant="ghost" className="p-1 hover:bg-transparent">
-            <Link to="/register" className="text-base font-medium text-white hover:text-red-500">
+            <Link
+              to="/register"
+              className="text-base font-medium text-white hover:text-red-500"
+            >
               Register
             </Link>
           </Button>
           <Button variant="ghost" className="p-1 hover:bg-transparent">
-            <Link to="/booking" className="text-base font-medium text-white hover:text-red-500">
+            <Link
+              to="/booking"
+              className="text-base font-medium text-white hover:text-red-500"
+            >
               Booking
+            </Link>
+          </Button>
+          <Button variant="ghost" className="p-1 hover:bg-transparent">
+            <Link
+              to="/dashboard"
+              className="text-base font-medium text-white hover:text-red-500"
+            >
+              Dashboard
             </Link>
           </Button>
         </div>
