@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import { Toaster } from "./components/ui/sonner";
 import Payment from "./components/Payment";
 import BookingSuccess from "./components/Booking-Success";
+import AdminDashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,12 @@ const router = createBrowserRouter(
       <Route path="booking" element={<Booking />} />
       <Route path="payment" element={<Payment />} />
       <Route path="booking-success" element={<BookingSuccess />} />
+      <Route path="dashboard" element={<AdminDashboard />} />
+      <Route path="admin/manage-bookings" element={<AdminDashboard />} />
+      <Route path="admin/manage-courts" element={<AdminDashboard />} />
+      <Route path="admin/manage-courts" element={<AdminDashboard />} />
+
+
     </Route>
   )
 );
