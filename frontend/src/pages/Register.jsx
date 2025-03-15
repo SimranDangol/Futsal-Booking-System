@@ -8,15 +8,17 @@ import {
   CardFooter,
   CardHeader,
 } from "../components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import image from "../assets/image.jpeg";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
+    name: "",
+    username: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,9 +28,33 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    setError("");
+    
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          username: formData.username,
+          password: formData.password
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+      
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -40,7 +66,6 @@ const Register = () => {
         backgroundPosition: "center",
       }}
     >
-      {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/80 to-teal-400/80"></div>
 
       <Card className="relative z-10 shadow-xl w-96 bg-white/95 backdrop-blur-sm">
@@ -50,25 +75,25 @@ const Register = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="fullname">Full Name</Label>
+              <Label htmlFor="name">Full Name</Label>
               <Input
-                id="fullname"
-                name="fullname"
+                id="name"
+                name="name"
                 type="text"
                 placeholder="Enter your full name"
-                value={formData.fullName}
+                value={formData.name}
                 onChange={handleChange}
                 className="mt-2 transition border-gray-300 shadow-sm hover:border-gray-500"
               />
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="username">Username</Label>
               <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                value={formData.email}
+                id="username"
+                name="username"
+                type="text"
+                placeholder="Enter your username"
+                value={formData.username}
                 onChange={handleChange}
                 className="mt-2 transition border-gray-300 shadow-sm hover:border-gray-500"
               />
@@ -85,6 +110,7 @@ const Register = () => {
                 className="mt-2 transition border-gray-300 shadow-sm hover:border-gray-500"
               />
             </div>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
           </form>
         </CardContent>
         <CardFooter className="flex flex-col items-center">
@@ -108,4 +134,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Register; 
