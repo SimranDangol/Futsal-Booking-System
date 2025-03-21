@@ -33,22 +33,6 @@ const Navbar = () => {
               Register
             </Link>
           </Button>
-          <Button variant="ghost" className="p-1 hover:bg-transparent">
-            <Link
-              to="/booking"
-              className="text-base font-medium text-white hover:text-red-500"
-            >
-              Booking
-            </Link>
-          </Button>
-          <Button variant="ghost" className="p-1 hover:bg-transparent">
-            <Link
-              to="/dashboard"
-              className="text-base font-medium text-white hover:text-red-500"
-            >
-              Dashboard
-            </Link>
-          </Button>
         </div>
       </div>
     </nav>
