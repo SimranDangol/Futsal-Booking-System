@@ -5,13 +5,14 @@ import {
 } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "./pages/Home";
-import Booking from "./pages/Booking";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { Toaster } from "./components/ui/sonner";
 import Payment from "./components/Payment";
-import BookingSuccess from "./components/Booking-Success";
-import AdminDashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard";
+import Bookings from "./pages/MyBookings";
+import Booking from "./components/Booking";
+import BookingSuccess from "./components/BookingSuccess";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,15 +20,11 @@ const router = createBrowserRouter(
       <Route path="" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-      <Route path="booking" element={<Booking />} />
+      <Route path="my-bookings" element={<Bookings />} />
       <Route path="payment" element={<Payment />} />
+      <Route path="book-now" element={<Booking />} />
+      <Route path="dashboard" element={<Dashboard />} />
       <Route path="booking-success" element={<BookingSuccess />} />
-      <Route path="dashboard" element={<AdminDashboard />} />
-      <Route path="admin/manage-bookings" element={<AdminDashboard />} />
-      <Route path="admin/manage-courts" element={<AdminDashboard />} />
-      <Route path="admin/manage-courts" element={<AdminDashboard />} />
-
-
     </Route>
   )
 );
