@@ -6,12 +6,27 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import futsal from "../../public/futsal.jpeg";
 import img from "../assets/img.jpeg";
 import image from "../assets/image.jpeg";
 import court from "../assets/court.jpeg";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const history = useNavigate();
+
+  const handleBookNowClick = () => {
+    if (isLoggedIn) {
+      toast.success("You are logged in! Proceed with booking.");
+      history.push("/book-now"); 
+    } else {
+      toast.error("Please log in to book a futsal session.");
+    }
+  };
+
   return (
     <>
       {/* Top Section */}
@@ -28,11 +43,16 @@ const Home = () => {
           <Button
             size="lg"
             variant="outline"
-            className="text-white transition duration-300 border-none rounded-full bg-slate-950 hover:bg-slate-800 "
+            className="text-white transition duration-300 border-none rounded-full bg-slate-950 hover:bg-slate-800"
+            onClick={handleBookNowClick} // Handle click
           >
-            <Link to="/booking" className="text-white rounded-md">
-              Book Now
-            </Link>
+            {isLoggedIn ? (
+              <Link to="/book-now" className="text-white rounded-md">
+                Book Now
+              </Link>
+            ) : (
+              "Book Now" // Regular text button when not logged in
+            )}
           </Button>
         </div>
 
@@ -71,7 +91,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Hero Section  */}
+      {/* Hero Section */}
       <div className="flex flex-col items-center justify-between gap-16 px-4 mb-16 md:flex-row md:px-16">
         <div className="flex-1 space-y-6 text-center md:text-left">
           <h1 className="text-5xl font-bold leading-tight text-gray-800">
@@ -87,8 +107,9 @@ const Home = () => {
           <Button
             size="lg"
             className="text-white transition duration-300 rounded-full bg-slate-950 hover:bg-slate-800"
+            onClick={handleBookNowClick} // Handle click
           >
-            <Link to="/booking">Book Now</Link>
+            {isLoggedIn ? <Link to="/book-now">Book Now</Link> : "Book Now"}
           </Button>
         </div>
         <div className="flex items-center justify-center flex-1 p-4">
@@ -106,27 +127,42 @@ const Home = () => {
         <p className="text-gray-600 opacity-80">
           Explore our vibrant futsal moments captured in stunning visuals.
         </p>
+
         <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 md:grid-cols-4">
-          <img
-            src={image}
-            alt="Futsal court"
-            className="rounded-lg w-full h-[300px] object-cover shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105"
-          />
-          <img
-            src={court}
-            alt="Futsal court"
-            className="rounded-lg w-full h-[300px] object-cover shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105"
-          />
-          <img
-            src={futsal}
-            alt="Futsal court"
-            className="rounded-lg w-full h-[300px] object-cover shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105"
-          />
-          <img
-            src={img}
-            alt="Futsal court"
-            className="rounded-lg w-full h-[300px] object-cover shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105"
-          />
+          <div className="relative group">
+            <img
+              src={image}
+              alt="Futsal court A"
+              className="rounded-lg w-full h-[300px] object-cover shadow-md transition-transform duration-300 ease-in-out transform group-hover:scale-105"
+            />
+          </div>
+
+          {/* Court B */}
+          <div className="relative group">
+            <img
+              src={court}
+              alt="Futsal court B"
+              className="rounded-lg w-full h-[300px] object-cover shadow-md transition-transform duration-300 ease-in-out transform group-hover:scale-105"
+            />
+          </div>
+
+          {/* Court C */}
+          <div className="relative group">
+            <img
+              src={futsal}
+              alt="Futsal court C"
+              className="rounded-lg w-full h-[300px] object-cover shadow-md transition-transform duration-300 ease-in-out transform group-hover:scale-105"
+            />
+          </div>
+
+          {/* Court D */}
+          <div className="relative group">
+            <img
+              src={img}
+              alt="Futsal court D"
+              className="rounded-lg w-full h-[300px] object-cover shadow-md transition-transform duration-300 ease-in-out transform group-hover:scale-105"
+            />
+          </div>
         </div>
       </div>
     </>

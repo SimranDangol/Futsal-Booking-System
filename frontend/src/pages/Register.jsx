@@ -14,7 +14,7 @@ import image from "../assets/image.jpeg";
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     username: "",
     password: "",
   });
@@ -70,7 +70,9 @@ const Register = () => {
 
       <Card className="relative z-10 shadow-xl w-96 bg-white/95 backdrop-blur-sm">
         <CardHeader>
-          <h2 className="text-2xl font-semibold text-center">Create an Account</h2>
+          <h2 className="text-2xl font-semibold text-center">
+            Create an Account
+          </h2>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -114,8 +116,8 @@ const Register = () => {
           </form>
         </CardContent>
         <CardFooter className="flex flex-col items-center">
-          <Button 
-            onClick={handleSubmit} 
+          <Button
+            onClick={handleSubmit}
             className="w-full text-white bg-gradient-to-r from-blue-500 to-teal-400 hover:from-blue-600 hover:to-teal-500"
           >
             Register
@@ -134,4 +136,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Register;
