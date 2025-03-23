@@ -29,7 +29,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                to="/booking"
+                to="/book-now"
                 className="text-sm text-gray-200 transition duration-300 hover:text-white"
               >
                 Book Now

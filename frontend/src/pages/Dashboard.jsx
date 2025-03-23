@@ -1,280 +1,51 @@
 
-// import { Button } from "../components/ui/button";
-// import { Card, CardContent, CardHeader } from "../components/ui/card";
-// import { Sidebar } from "../components/sidebar"; 
-
-// const AdminDashboard = () => {
-//   return (
-//     <div className="flex min-h-screen">
-//       {/* Sidebar */}
-//       <Sidebar className="w-64 p-6 text-white bg-gray-800" />
-
-//       {/* Main Content */}
-//       <div className="flex-1 p-8 bg-gray-100">
-//         <h1 className="mb-6 text-3xl font-semibold">Admin Dashboard</h1>
-
-//         {/* Booking Management Section */}
-//         <Card className="mb-6">
-//           <CardHeader>
-//             <h2 className="text-xl font-semibold">Manage Bookings</h2>
-//           </CardHeader>
-//           <CardContent>
-//             <p className="mb-4 text-sm">Manage your futsal court bookings.</p>
-//             {/* Booking Table or List */}
-//             <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-//               <thead>
-//                 <tr className="bg-gray-200">
-//                   <th className="px-4 py-2 text-left">Customer</th>
-//                   <th className="px-4 py-2 text-left">Court</th>
-//                   <th className="px-4 py-2 text-left">Date</th>
-//                   <th className="px-4 py-2 text-left">Status</th>
-//                   <th className="px-4 py-2 text-left">Actions</th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 <tr>
-//                   <td className="px-4 py-2">John Doe</td>
-//                   <td className="px-4 py-2">Court 1</td>
-//                   <td className="px-4 py-2">2025-03-10</td>
-//                   <td className="px-4 py-2">Pending</td>
-//                   <td className="px-4 py-2">
-//                     <Button className="text-white bg-red-500">Cancel</Button>
-//                   </td>
-//                 </tr>
-//               </tbody>
-//             </table>
-
-//             {/* Button to Add New Booking */}
-//             <Button className="mt-4 text-white bg-green-600">Add New Booking</Button>
-//           </CardContent>
-//         </Card>
-
-//         {/* Statistics Section */}
-//         <Card>
-//           <CardHeader>
-//             <h2 className="text-xl font-semibold">Booking Statistics</h2>
-//           </CardHeader>
-//           <CardContent>
-//             <div className="grid grid-cols-3 gap-4">
-//               <div className="p-4 text-center bg-blue-100 rounded-lg">
-//                 <h3>Total Bookings</h3>
-//                 <p>150</p>
-//               </div>
-//               <div className="p-4 text-center bg-orange-100 rounded-lg">
-//                 <h3>Completed Bookings</h3>
-//                 <p>120</p>
-//               </div>
-//               <div className="p-4 text-center bg-green-100 rounded-lg">
-//                 <h3>Upcoming Bookings</h3>
-//                 <p>30</p>
-//               </div>
-//             </div>
-//           </CardContent>
-//         </Card>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AdminDashboard;
-
-
-// // import { useEffect, useState } from 'react';
-// // import { Button } from "../components/ui/button";
-// // import { Card, CardContent, CardHeader } from "../components/ui/card";
-// // import { Sidebar } from "../components/sidebar"; 
-// // import { toast } from "sonner";
-
-// // const AdminDashboard = () => {
-// //   const [bookings, setBookings] = useState([]);
-// //   const [loading, setLoading] = useState(true);
-
-// //   useEffect(() => {
-// //     const fetchBookings = async () => {
-// //       try {
-// //         const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
-// //         const response = await fetch(`${apiUrl}/api/bookings`);
-        
-// //         if (!response.ok) throw new Error('Failed to fetch bookings');
-        
-// //         const data = await response.json();
-// //         setBookings(data);
-// //       } catch (error) {
-// //         toast.error(error.message);
-// //       } finally {
-// //         setLoading(false);
-// //       }
-// //     };
-
-// //     if (isAdmin) {
-// //       fetchBookings();
-// //     }
-// //   }, [isAdmin]);
-
-// //   if (!isAdmin) {
-// //     return <div className="p-8 text-center">Unauthorized access</div>;
-// //   }
-
-// //   return (
-// //     <div className="flex min-h-screen">
-// //       <Sidebar className="w-64 p-6 text-white bg-gray-800" />
-      
-// //       <div className="flex-1 p-8 bg-gray-100">
-// //         <h1 className="mb-6 text-3xl font-semibold">Admin Dashboard</h1>
-
-// //         <Card className="mb-6">
-// //           <CardHeader>
-// //             <h2 className="text-xl font-semibold">Manage Bookings</h2>
-// //           </CardHeader>
-// //           <CardContent>
-// //             {loading ? (
-// //               <p>Loading bookings...</p>
-// //             ) : (
-// //               <>
-// //                 <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-// //                   <thead>
-// //                     <tr className="bg-gray-200">
-// //                       <th className="px-4 py-2 text-left">Customer</th>
-// //                       <th className="px-4 py-2 text-left">Date</th>
-// //                       <th className="px-4 py-2 text-left">Time</th>
-// //                       <th className="px-4 py-2 text-left">Contact</th>
-// //                       <th className="px-4 py-2 text-left">Actions</th>
-// //                     </tr>
-// //                   </thead>
-// //                   <tbody>
-// //                     {bookings.map((booking) => (
-// //                       <tr key={booking.id}>
-// //                         <td className="px-4 py-2">{booking.name}</td>
-// //                         <td className="px-4 py-2">{booking.bookingDate}</td>
-// //                         <td className="px-4 py-2">{booking.startTime}</td>
-// //                         <td className="px-4 py-2">{booking.phoneNumber}</td>
-// //                         <td className="px-4 py-2">
-// //                           <Button className="text-white bg-red-500">
-// //                             Cancel
-// //                           </Button>
-// //                         </td>
-// //                       </tr>
-// //                     ))}
-// //                   </tbody>
-// //                 </table>
-                
-// //                 {bookings.length === 0 && !loading && (
-// //                   <p className="mt-4 text-gray-500">No bookings found</p>
-// //                 )}
-// //               </>
-// //             )}
-// //           </CardContent>
-// //         </Card>
-
-// //         {/* Statistics Section */}
-// //         <Card>
-// //           <CardHeader>
-// //             <h2 className="text-xl font-semibold">Booking Statistics</h2>
-// //           </CardHeader>
-// //           <CardContent>
-// //             <div className="grid grid-cols-3 gap-4">
-// //               <div className="p-4 text-center bg-blue-100 rounded-lg">
-// //                 <h3>Total Bookings</h3>
-// //                 <p>150</p>
-// //               </div>
-// //               <div className="p-4 text-center bg-orange-100 rounded-lg">
-// //                 <h3>Completed Bookings</h3>
-// //                 <p>120</p>
-// //               </div>
-// //               <div className="p-4 text-center bg-green-100 rounded-lg">
-// //                 <h3>Upcoming Bookings</h3>
-// //                 <p>30</p>
-// //               </div>
-// //             </div>
-// //           </CardContent>
-// //         </Card>
-// //       </div>
-// //     </div>
-// //   );
-// // };
-
-// // export default AdminDashboard;
-
-
-import { useEffect, useState } from 'react';
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader } from "../components/ui/card";
 import { Sidebar } from "../components/sidebar"; 
-import { toast } from "sonner";
 
 const AdminDashboard = () => {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  
-
-  useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
-        const response = await fetch(`${apiUrl}/api/bookings`);
-        
-        if (!response.ok) throw new Error('Failed to fetch bookings');
-        
-        const data = await response.json();
-        setBookings(data);
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBookings();
-  }, []); 
-
   return (
     <div className="flex min-h-screen">
+      {/* Sidebar */}
       <Sidebar className="w-64 p-6 text-white bg-gray-800" />
-      
-      <div className="flex-1 p-8 bg-gray-100">
-        <h1 className="mb-6 text-3xl font-semibold">Admin Dashboard</h1>
 
+      {/* Main Content */}
+      <div className="flex-1 p-8 bg-gray-100">
+        <h1 className="mb-6 text-3xl font-semibold">My Dashboard</h1>
+
+        {/* Booking Management Section */}
         <Card className="mb-6">
           <CardHeader>
-            <h2 className="text-xl font-semibold">Manage Bookings</h2>
+            <h2 className="text-xl font-semibold">My Bookings</h2>
           </CardHeader>
           <CardContent>
-            {loading ? (
-              <p>Loading bookings...</p>
-            ) : (
-              <>
-                <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="px-4 py-2 text-left">Customer</th>
-                      <th className="px-4 py-2 text-left">Date</th>
-                      <th className="px-4 py-2 text-left">Time</th>
-                      <th className="px-4 py-2 text-left">Contact</th>
-                      <th className="px-4 py-2 text-left">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bookings.map((booking) => (
-                      <tr key={booking.id}>
-                        <td className="px-4 py-2">{booking.name}</td>
-                        <td className="px-4 py-2">{booking.bookingDate}</td>
-                        <td className="px-4 py-2">{booking.startTime}</td>
-                        <td className="px-4 py-2">{booking.phoneNumber}</td>
-                        <td className="px-4 py-2">
-                          <Button className="text-white bg-red-500">
-                            Cancel
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                
-                {bookings.length === 0 && !loading && (
-                  <p className="mt-4 text-gray-500">No bookings found</p>
-                )}
-              </>
-            )}
+            <p className="mb-4 text-sm">Manage your futsal court bookings.</p>
+            {/* Booking Table or List */}
+            <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="px-4 py-2 text-left">Customer</th>
+                  <th className="px-4 py-2 text-left">Court</th>
+                  <th className="px-4 py-2 text-left">Date</th>
+                  <th className="px-4 py-2 text-left">Status</th>
+                  <th className="px-4 py-2 text-left">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-4 py-2">John Doe</td>
+                  <td className="px-4 py-2">Court 1</td>
+                  <td className="px-4 py-2">2025-03-10</td>
+                  <td className="px-4 py-2">Pending</td>
+                  <td className="px-4 py-2">
+                    <Button className="text-white bg-red-500">Cancel</Button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Button to Add New Booking */}
+            <Button className="mt-4 text-white bg-green-600">Add New Booking</Button>
           </CardContent>
         </Card>
 
@@ -287,15 +58,15 @@ const AdminDashboard = () => {
             <div className="grid grid-cols-3 gap-4">
               <div className="p-4 text-center bg-blue-100 rounded-lg">
                 <h3>Total Bookings</h3>
-                <p>{bookings.length}</p>
+                <p>150</p>
               </div>
               <div className="p-4 text-center bg-orange-100 rounded-lg">
                 <h3>Completed Bookings</h3>
-                <p>{bookings.filter(b => new Date(b.bookingDate) < new Date()).length}</p>
+                <p>120</p>
               </div>
               <div className="p-4 text-center bg-green-100 rounded-lg">
                 <h3>Upcoming Bookings</h3>
-                <p>{bookings.filter(b => new Date(b.bookingDate) >= new Date()).length}</p>
+                <p>30</p>
               </div>
             </div>
           </CardContent>
