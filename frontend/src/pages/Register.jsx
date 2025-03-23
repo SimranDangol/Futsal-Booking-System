@@ -32,23 +32,24 @@ const Register = () => {
     e.preventDefault();
     setError("");
     
+    if (formData.username.toLowerCase() === 'admin') {
+      setError('Admin registration is not allowed');
+      return;
+    }
+  
     try {
       const response = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: formData.name,
-          username: formData.username,
-          password: formData.password
+          ...formData,
+          role: "user" // Force user role
         }),
       });
-
-      const data = await response.json();
-      
+  
       if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
       
       navigate("/login");
