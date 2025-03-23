@@ -124,21 +124,27 @@ const Dashboard = () => {
               <h2 className="text-xl font-semibold">My Profile</h2>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
+              <div className="flex items-center space-x-4">
+                <img
+                  src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1742703392~exp=1742706992~hmac=43b06f6e6914ef872f7d0b512875333922db9d3a164d5c94504fd23a89d0ce5f&w=826"
+                  alt="Profile"
+                  className="w-20 h-20 rounded-full"
+                />
+              </div>
+              <div className="mt-4 space-y-2">
                 <div>
                   <p className="text-sm text-gray-500">Full Name</p>
                   <p>John Doe</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">username</p>
-                  <p>john.doe@example.com</p>
+                  <p className="text-sm text-gray-500">Username</p>
+                  <p>Guest User</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Phone</p>
                   <p>+1 (555) 123-4567</p>
                 </div>
               </div>
-              {/* <Button className="mt-4 text-gray-700 bg-gray-200">Edit Profile</Button> */}
             </CardContent>
           </Card>
         </div>
