@@ -6,7 +6,7 @@ export default function BookingSuccess() {
   const navigate = useNavigate();
 
   const handleGoToDashboard = () => {
-    navigate("/"); 
+    navigate("/my-bookings"); 
   };
 
   return (
@@ -30,11 +30,11 @@ export default function BookingSuccess() {
         </p>
 
        
-        <div className="mb-6 space-y-2">
+        {/* <div className="mb-6 space-y-2">
           <p className="text-base text-gray-700">Event: Futsal Game</p>
           <p className="text-base text-gray-700">Date: February 20, 2025</p>
           <p className="text-base text-gray-700">Time: 5:00 PM</p>
-        </div>
+        </div> */}
 
     
         <div className="flex justify-center">

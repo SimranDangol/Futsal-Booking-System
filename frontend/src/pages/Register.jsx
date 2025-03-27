@@ -10,6 +10,7 @@ import {
 } from "../components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import image from "../assets/image.jpeg";
+import { toast } from "sonner";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -22,18 +23,41 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
+  };
+
+  const validateForm = () => {
+    if (!formData.fullName.trim()) {
+      setError("Full name is required.");
+      return false;
+    }
+    if (!formData.username.trim()) {
+      setError("Username is required.");
+      return false;
+    }
+    if (formData.username.toLowerCase() === "admin") {
+      setError("Admin registration is not allowed.");
+      return false;
+    }
+    if (!formData.password) {
+      setError("Password is required.");
+      return false;
+    }
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return false;
+    }
+    // Clear error if validations pass.
+    setError("");
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    
-    if (formData.username.toLowerCase() === 'admin') {
-      setError('Admin registration is not allowed');
+    if (!validateForm()) {
       return;
     }
   
@@ -42,21 +66,32 @@ const Register = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...formData,
-          role: "user" // Force user role
+          name: formData.fullName, // mapped field from frontend to backend
+          username: formData.username,
+          password: formData.password,
+          role: "user",
         }),
       });
   
+      const responseData = await response.json();
+  
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message);
+        throw new Error(responseData.error || "Registration failed");
       }
-      
+  
+      // Display a success toast in the bottom right
+      toast.success("Successfully registered", {
+        position: "bottom-right",
+      });
+  
       navigate("/login");
     } catch (err) {
       setError(err.message);
     }
   };
+  
+  
+  
 
   return (
     <div
@@ -78,13 +113,13 @@ const Register = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="fullName">Full Name</Label>
               <Input
-                id="name"
-                name="name"
+                id="fullName"
+                name="fullName"
                 type="text"
                 placeholder="Enter your full name"
-                value={formData.name}
+                value={formData.fullName}
                 onChange={handleChange}
                 className="mt-2 transition border-gray-300 shadow-sm hover:border-gray-500"
               />

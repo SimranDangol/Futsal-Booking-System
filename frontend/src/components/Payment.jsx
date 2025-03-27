@@ -15,15 +15,27 @@ import { toast } from "sonner";
 
 export default function Payment({ name, date, time }) {
   const [loading, setLoading] = useState(false);
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
   const navigate = useNavigate();
 
-  const handleMockPayment = () => {
+  const handlePayNow = () => {
+    if (!cardNumber || !expiryDate || !cvv) {
+      toast.warning("Please fill in all payment details.");
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      toast.success("Payment Mock Success!");
+      toast.success("Payment Saved!");
       navigate("/booking-success");
     }, 2000);
+  };
+
+  const handlePayLater = () => {
+    navigate("/booking-success");
   };
 
   return (
@@ -45,9 +57,9 @@ export default function Payment({ name, date, time }) {
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="space-y-6"> 
+        <CardContent className="space-y-6">
           {/* Booking Summary */}
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 text-center">
             <p className="text-base text-gray-700">{name}</p>
             <p className="text-base text-gray-700">
               {date ? date.toLocaleDateString() : ""}
@@ -56,7 +68,7 @@ export default function Payment({ name, date, time }) {
           </div>
 
           {/* Payment Form */}
-          <form className="space-y-5"> 
+          <form className="space-y-5">
             {/* Card Number */}
             <div className="relative">
               <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -67,6 +79,8 @@ export default function Payment({ name, date, time }) {
                 <Input
                   type="text"
                   placeholder="•••• •••• •••• ••••"
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(e.target.value)}
                   className="py-4 pl-10 pr-4 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -82,6 +96,8 @@ export default function Payment({ name, date, time }) {
                 <Input
                   type="text"
                   placeholder="MM/YY"
+                  value={expiryDate}
+                  onChange={(e) => setExpiryDate(e.target.value)}
                   className="py-4 pl-10 pr-4 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -97,22 +113,30 @@ export default function Payment({ name, date, time }) {
                 <Input
                   type="text"
                   placeholder="123"
+                  value={cvv}
+                  onChange={(e) => setCvv(e.target.value)}
                   className="py-4 pl-10 pr-4 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
           </form>
 
-          {/* Actions */}
-          <div className="flex justify-between gap-4">
-           
+          {/* Payment Action Buttons */}
+          <div className="flex flex-col gap-4">
             <Button
               type="button"
-              onClick={handleMockPayment}
+              onClick={handlePayNow}
               disabled={loading}
               className="w-full transition-all hover:-translate-y-0.5"
             >
-              {loading ? "Processing..." : "Book Now"}
+              {loading ? "Processing..." : "Pay Now"}
+            </Button>
+            <Button
+              type="button"
+              onClick={handlePayLater}
+              className="w-full transition-all hover:-translate-y-0.5"
+            >
+              Pay Later
             </Button>
           </div>
         </CardContent>
