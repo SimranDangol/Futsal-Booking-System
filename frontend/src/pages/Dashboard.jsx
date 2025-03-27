@@ -1,156 +1,121 @@
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader } from "../components/ui/card";
-import { LayoutDashboardIcon, Calendar, Book, LogOut, X } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
+import ConfirmationModal from "./ConfirmationModal"; // Adjust the import path accordingly
 
-const Dashboard = () => {
-  const [bookings, setBookings] = useState([
-    {
-      id: 1,
-      date: "2025-03-25",
-      time: "18:00-19:00",
-      court: "Court A",
-    },
-    {
-      id: 2,
-      date: "2025-03-30",
-      time: "19:00-20:00",
-      court: "Court B",
-    },
-  ]);
+const AdminDashboard = () => {
+  const [bookings, setBookings] = useState([]);
+  const [bookingToCancel, setBookingToCancel] = useState(null);
+  const navigate = useNavigate();
 
-  const handleCancelBooking = (id) => {
-    setBookings(bookings.filter((booking) => booking.id !== id));
+  // Fetch all bookings from the backend
+  useEffect(() => {
+    fetch("http://localhost:8080/api/bookings/all")
+      .then((response) => response.json())
+      .then((data) => setBookings(data))
+      .catch((error) => console.error("Error fetching bookings:", error));
+  }, []);
+  const handleLogout = () => {
+    // Perform logout operations, e.g., clearing user data
+    localStorage.removeItem("username");
+    // Navigate to the home page
+    navigate("/");
+  };
+  
+  const openCancelModal = (id) => {
+    setBookingToCancel(id);
+  };
+
+  const handleConfirmCancel = async () => {
+    try {
+      await fetch(`http://localhost:8080/api/bookings/${bookingToCancel}`, { method: "DELETE" });
+      setBookings(bookings.filter((booking) => booking.id !== bookingToCancel));
+    } catch (error) {
+      console.error("Error canceling booking:", error);
+    } finally {
+      setBookingToCancel(null);
+    }
+  };
+
+  const handleCancelModal = () => {
+    setBookingToCancel(null);
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <div className="flex flex-col justify-between w-64 p-6 text-white bg-slate-800">
-        <div>
-          <nav className="space-y-4">
-            <Link
-              to="/dashboard"
-              className="flex items-center w-full gap-2 px-2 py-1 text-left rounded hover:bg-slate-700"
-            >
-              <LayoutDashboardIcon size={18} /> Dashboard
-            </Link>
-            <Separator className="bg-slate-600" />
-            <Link
-              to="/book-now"
-              className="flex items-center w-full gap-2 px-2 py-1 text-left rounded hover:bg-slate-700"
-            >
-              <Book size={18} /> Book
-            </Link>
-            <Separator className="bg-slate-600" />
-            <Link
-              to="/my-bookings"
-              className="flex items-center w-full gap-2 px-2 py-1 text-left rounded hover:bg-slate-700"
-            >
-              <Calendar size={18} /> My Bookings
-            </Link>
-          </nav>
-        </div>
-        <Button
-          variant="destructive"
-          className="flex items-center w-full gap-2 mt-auto"
-        >
-          <LogOut size={18} /> Logout
-        </Button>
-      </div>
-
-      {/* Separator */}
-      <Separator orientation="vertical" className="h-full" />
-
+    <div className="flex min-h-screen">
       {/* Main Content */}
       <div className="flex-1 p-8 bg-gray-100">
-        <h1 className="mb-6 text-3xl font-semibold">My Dashboard</h1>
+        <h1 className="mb-6 text-3xl font-semibold">Admin Dashboard</h1>
 
-        {/* User Bookings Section */}
+        {/* Booking Management Section */}
         <Card className="mb-6">
           <CardHeader>
-            <h2 className="text-xl font-semibold">My Bookings</h2>
+            <h2 className="text-xl font-semibold">All Bookings</h2>
           </CardHeader>
           <CardContent>
-            <p className="mb-4 text-sm">
-              View and manage your futsal court bookings.
-            </p>
-            {/* Booking Table or List */}
+            <p className="mb-4 text-sm">Manage all futsal court bookings.</p>
             <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="px-4 py-2 text-left">Court</th>
+                  <th className="px-4 py-2 text-left">ID</th>
+                  <th className="px-4 py-2 text-left">Customer</th>
                   <th className="px-4 py-2 text-left">Date</th>
-                  <th className="px-4 py-2 text-left">Time</th>
+                  <th className="px-4 py-2 text-left">Slot</th>
+                  <th className="px-4 py-2 text-left">Phone</th>
                   <th className="px-4 py-2 text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {bookings.map((booking) => (
-                  <tr key={booking.id}>
-                    <td className="px-4 py-2">{booking.court}</td>
-                    <td className="px-4 py-2">{booking.date}</td>
-                    <td className="px-4 py-2">{booking.time}</td>
-                    <td className="px-4 py-2">
-                      <div className="flex space-x-2">
+                {bookings.length > 0 ? (
+                  bookings.map((booking) => (
+                    <tr key={booking.id} className="border-b">
+                      <td className="px-4 py-2">{booking.id}</td>
+                      <td className="px-4 py-2">{booking.name}</td>
+                      <td className="px-4 py-2">{booking.bookingDate}</td>
+                      <td className="px-4 py-2">{booking.slot}</td>
+                      <td className="px-4 py-2">{booking.phoneNumber}</td>
+                      <td className="px-4 py-2">
                         <Button
                           variant="destructive"
                           size="sm"
-                          onClick={() => handleCancelBooking(booking.id)}
-                          className="flex items-center gap-1"
+                          onClick={() => openCancelModal(booking.id)}
                         >
-                          <X size={14} /> Cancel
+                          Cancel
                         </Button>
-                      </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="px-4 py-2 text-center">
+                      No bookings found.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
+            <Button
+  onClick={handleLogout}
+  className="mt-4 text-white bg-red-600"
+>
+  Logout
+</Button>
 
-            {/* Button to Book New Court */}
-            <Button className="mt-4 text-white bg-green-600">
-              <Link to="/book-now"> Book a Court</Link>
-            </Button>
           </CardContent>
         </Card>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {/* Profile Card */}
-          <Card>
-            <CardHeader>
-              <h2 className="text-xl font-semibold">My Profile</h2>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-4">
-                <img
-                  src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1742703392~exp=1742706992~hmac=43b06f6e6914ef872f7d0b512875333922db9d3a164d5c94504fd23a89d0ce5f&w=826"
-                  alt="Profile"
-                  className="w-20 h-20 rounded-full"
-                />
-              </div>
-              <div className="mt-4 space-y-2">
-                <div>
-                  <p className="text-sm text-gray-500">Full Name</p>
-                  <p>John Doe</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Username</p>
-                  <p>Guest User</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Phone</p>
-                  <p>+1 (555) 123-4567</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
+
+      {/* Custom Confirmation Modal */}
+      {bookingToCancel !== null && (
+        <ConfirmationModal
+          message="Do you want to cancel this booking?"
+          onConfirm={handleConfirmCancel}
+          onCancel={handleCancelModal}
+        />
+      )}
     </div>
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;

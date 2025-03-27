@@ -32,22 +32,62 @@ import futsal from "../../public/futsal.jpeg";
 export default function Booking() {
   const [date, setDate] = useState(null);
   const [time, setTime] = useState("");
-  const [name, setName] = useState("");
   const [contact, setContact] = useState("");
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const username = localStorage.getItem("username") || "Guest";
+
 
   const handleProceedToPayment = () => {
-    if (!date || !time || !name || !contact) {
+    if (!date || !time || !contact) {
       toast.error("Please fill all fields before proceeding to payment.");
       return;
     }
-    navigate("/payment");
+  
+    const bookingData = {
+      bookingDate: format(date, "yyyy-MM-dd"),
+      slot: time,
+      name: username,
+      phoneNumber: contact,
+    };
+  
+    fetch("http://localhost:8080/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          toast.success(data.message);
+          navigate("/payment");
+        } else {
+          toast.error(data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("An error occurred while processing your booking.");
+      });
+  };
+  
+  
+
+  const handleLogout = () => {
+    localStorage.removeItem("username");
+    navigate("/");
+  };
+
+  const handleDateSelect = (selectedDate) => {
+    setDate(selectedDate);
+    setOpen(false);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
 
   const timeSlots = [
     "7:00 AM - 8:00 AM",
@@ -72,16 +112,12 @@ export default function Booking() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Sidebar*/}
+      {/* Sidebar */}
       <div className="flex flex-col justify-between w-64 p-6 text-white bg-slate-800">
+        <div className="text-lg font-bold mb-4">{username}</div>
         <div>
           <nav className="space-y-4">
-            <Link
-              to="/dashboard"
-              className="flex items-center w-full gap-2 px-2 py-1 text-left rounded hover:bg-slate-700"
-            >
-              <Home size={18} /> Dashboard
-            </Link>
+          
             <Separator className="bg-slate-600" />
             <Link
               to="/book-now"
@@ -101,6 +137,7 @@ export default function Booking() {
         <Button
           variant="destructive"
           className="flex items-center w-full gap-2 mt-auto"
+          onClick={handleLogout}
         >
           <LogOut size={18} /> Logout
         </Button>
@@ -122,7 +159,7 @@ export default function Booking() {
                 <label className="text-sm font-semibold text-gray-700">
                   Select Date
                 </label>
-                <Popover>
+                <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
@@ -139,7 +176,7 @@ export default function Booking() {
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={handleDateSelect}
                       initialFocus
                     />
                   </PopoverContent>
@@ -165,16 +202,15 @@ export default function Booking() {
                 </Select>
               </div>
 
-              {/* Name Input */}
+              {/* Name Display */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700">
                   Name
                 </label>
                 <Input
                   type="text"
-                  placeholder="Enter your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={username}
+                  readOnly
                   className="transition border-gray-300 shadow-sm hover:border-gray-500"
                 />
               </div>

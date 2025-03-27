@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Bookings from "./pages/MyBookings";
 import Booking from "./components/Booking";
 import BookingSuccess from "./components/BookingSuccess";
+import LoginSuccess from "./pages/LoginSuccess";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,7 +26,10 @@ const router = createBrowserRouter(
       <Route path="book-now" element={<Booking />} />
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="booking-success" element={<BookingSuccess />} />
+      <Route path="login-success" element={<LoginSuccess />} />
+
     </Route>
+    
   )
 );
 
